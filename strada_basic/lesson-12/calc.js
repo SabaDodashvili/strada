@@ -1,6 +1,6 @@
 let a = prompt('enter the first number', '0');
 let b = prompt('enter the second number', '0');
-let operation = prompt('enter one of the operators: +, -, *', '+');
+let operation = prompt('enter one of the operators: +, -, *', 'add');
 
 function validateValues(operation, numbOne, numbTwo) {
 	let checkOnSpaces = numbOne === ' ' || numbTwo === ' ';
