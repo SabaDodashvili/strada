@@ -10,35 +10,42 @@ const PRIORITIES = {
 	High: 'High',
 };
 
-let list = [
+const ERRORS = {
+	Status_Error: 'status change is not possible',
+	Priority_Error: 'priority change is not possible',
+	Add_Error: 'adding a task is not possible',
+	Deletion_Error: 'unable to delete task',
+};
+
+const list = [
 	{ name: 'create a post', status: STATUSES.In_Progress, priority: PRIORITIES.Low },
 	{ name: 'test', status: STATUSES.Done, priority: PRIORITIES.High },
 ];
 
 function changeStatus(taskName, newStatus) {
-	let foundEl = taskExists(taskName);
+	let foundTask = taskExists(taskName);
 
-	checkStatus(newStatus) && foundEl ? (foundEl.status = newStatus) : console.log('status change is not possible');
+	checkStatus(newStatus) && foundTask ? (foundTask.status = newStatus) : console.log(ERRORS.Status_Error);
 }
 
 function changePriority(taskName, newPriority) {
-	let foundEl = taskExists(taskName);
+	let foundTask = taskExists(taskName);
 
-	checkPriority(newPriority) && foundEl ? (foundEl.priority = newPriority) : console.log('priority change is not possible');
+	checkPriority(newPriority) && foundTask ? (foundTask.priority = newPriority) : console.log(ERRORS.Priority_Error);
 }
 
 function addTask(taskName, status = STATUSES.To_Do, priority = PRIORITIES.Low) {
 	if (!taskExists(taskName) && checkStatus(status) && checkPriority(priority)) list.push({ name: taskName, status: status, priority: priority });
-	else console.log('добавление задачи невозможно');
+	else console.log(ERRORS.Add_Error);
 }
 
 function deleteTask(taskName) {
 	if (taskExists(taskName))
 		list.splice(
-			list.findIndex(el => el.name === taskName),
+			list.findIndex(task => task.name === taskName),
 			1
 		);
-	else console.log('невозможно удалить задачу');
+	else console.log(ERRORS.Deletion_Error);
 }
 
 function showList() {
@@ -58,20 +65,20 @@ function showList() {
 }
 
 function taskExists(taskName) {
-	let elExist = list.find(el => el.name === taskName);
+	let elExist = list.find(task => task.name === taskName);
 
 	return elExist ? elExist : false;
 }
 
-function checkStatus(status) {
-	for (const key in STATUSES) {
-		if (status === STATUSES[key]) return true;
+function checkStatus(statusName) {
+	for (const status in STATUSES) {
+		if (statusName === STATUSES[status]) return true;
 	}
 }
 
-function checkPriority(priority) {
-	for (const key in PRIORITIES) {
-		if (priority === PRIORITIES[key]) return true;
+function checkPriority(priorityName) {
+	for (const priority in PRIORITIES) {
+		if (priorityName === PRIORITIES[priority]) return true;
 	}
 }
 
