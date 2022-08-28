@@ -1,14 +1,16 @@
 function showVerticalMessage(str) {
 	let verticalStr = '';
-
 	if (typeof str === 'string' && str.trim().length !== 0) {
-		if (str.length > 7) verticalStr += str.split('', 7).join('\n');
-		else verticalStr = str.split('').join('\n');
-	} else {
-		return 'input string';
+		for (let i = 0; i < 7; i++) {
+			if (i === 0 && str[i] === 's') {
+				verticalStr += str[i].toUpperCase();
+				continue;
+			} else if (str[i] !== undefined) verticalStr += str[i];
+		}
+		console.log(verticalStr);
+		return;
 	}
 
-	return verticalStr[0] === 's' ? verticalStr[0].toUpperCase() + verticalStr.slice(1) : verticalStr;
+	console.log('input string');
 }
-
-console.log(showVerticalMessage('tsasdasdrada'));
+showVerticalMessage('  ');
