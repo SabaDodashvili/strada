@@ -2,39 +2,56 @@ let a = prompt('enter the first number', '0');
 let b = prompt('enter the second number', '0');
 let operation = prompt('enter one of the operators: add, sub, multi', 'add');
 
-function validateValues(operation, numbOne, numbTwo) {
-	let checkOnSpaces = numbOne === ' ' || numbTwo === ' ';
-	let notNumber = (numbOne !== '0' && isNaN(numbOne / numbOne)) || (numbTwo !== '0' && isNaN(numbTwo / numbTwo));
-	let operationIsCorrect = operation === 'add' || operation === 'multi' || operation === 'sub';
+const ERRORS = {
+	Not_Number: 'for the program to work correctly, enter the numbers',
+	Wrong_Operator: 'enter the correct operator',
+};
 
-	if (checkOnSpaces || notNumber) return 'for the program to work correctly, enter the numbers';
-	else if (!operationIsCorrect) return 'enter the correct operator';
+const OPERATORS = {
+	Add: 'add',
+	Multi: 'multi',
+	Sub: 'sub',
+};
+
+function validateValues(operation, numbOne, numbTwo) {
+	let notNumber = (numbOne !== '0' && isNaN(numbOne / numbOne)) || (numbTwo !== '0' && isNaN(numbTwo / numbTwo));
+	let operationIsCorrect = false;
+
+	for (const operator in OPERATORS) {
+		if (OPERATORS[operator] === operation) {
+			operationIsCorrect = true;
+			break;
+		}
+	}
+
+	if (notNumber) return ERRORS.Not_Number;
+	else if (!operationIsCorrect) return ERRORS.Wrong_Operator;
 	else return 'correct validation';
 }
 
 function calc(operation, numbOne, numbTwo) {
-	let operations = {
+	let OPERATIONS = {
 		add: '+',
 		sub: '-',
 		multi: '*',
 	};
 
-	if (validateValues(operation, numbOne, numbTwo) === 'correct validation') {
-		switch (operations[operation]) {
-			case operations.add:
+	let validationResult = validateValues(operation, numbOne, numbTwo);
+
+	if (validationResult === 'correct validation') {
+		switch (OPERATIONS[operation]) {
+			case OPERATIONS.add:
 				return Number(numbOne) + Number(numbTwo);
-			case operations.sub:
+			case OPERATIONS.sub:
 				return Number(numbOne) - Number(numbTwo);
-			case operations.multi:
+			case OPERATIONS.multi:
 				return Number(numbOne) * Number(numbTwo);
 			default:
 				return 'unexpected error please try again';
 		}
 	} else {
-		return validateValues(operation, numbOne, numbTwo);
+		return validationResult;
 	}
 }
 
 console.log(calc(operation, a, b));
-
-//
