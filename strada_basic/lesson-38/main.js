@@ -5,9 +5,9 @@ equalityBtn.addEventListener('click', () => {
 	const operation = document.querySelector('.calc__select').value;
 	const inputsColection = document.querySelectorAll('.calc__input');
 
-	result = calc(operation, inputsColection[0].value, inputsColection[1].value);
+	result = calc(operation, inputsColection[0].value.trim(), inputsColection[1].value.trim());
 
-	resultBoard.textContent = result;
+	resultBoard.textContent = Number(result.toFixed(10));
 });
 
 const ERRORS = {
