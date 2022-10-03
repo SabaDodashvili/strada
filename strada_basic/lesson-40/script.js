@@ -1,26 +1,3 @@
-let resultBoard = document.querySelector('.calc__result-board');
-let equalityBtn = document.querySelector('.calc__equality-btn');
-let calcResults = document.querySelector('.calc__results');
-
-equalityBtn.addEventListener('click', () => {
-	const operation = document.querySelector('.calc__select').value;
-	const inputsColection = document.querySelectorAll('.calc__input');
-
-	result = calc(operation, inputsColection[0].value.trim(), inputsColection[1].value.trim());
-
-	if (!isNaN(result)) {
-		resultBoard.textContent = Number(result.toFixed(10));
-
-		let resultElem = document.createElement('div');
-		resultElem.addEventListener('click', function () {
-			this.remove();
-		});
-		resultElem.textContent = result;
-
-		calcResults.prepend(resultElem);
-	} else alert(result);
-});
-
 const ERRORS = {
 	Not_Number: 'for the program to work correctly, enter the numbers',
 	Wrong_Operator: 'enter the correct operator',
@@ -33,6 +10,34 @@ const OPERATORS = {
 	Multi: '*',
 	Division: '/',
 };
+
+let resultBoard = document.querySelector('.calc__result-board');
+let equalityBtn = document.querySelector('.calc__equality-btn');
+let calcResults = document.querySelector('.calc__results');
+
+equalityBtn.addEventListener('click', showResult);
+
+function showResult() {
+	const operation = document.querySelector('.calc__select').value;
+	const inputsColection = document.querySelectorAll('.calc__input');
+
+	result = calc(operation, inputsColection[0].value.trim(), inputsColection[1].value.trim());
+
+	if (!isNaN(result)) {
+		resultBoard.textContent = Number(result.toFixed(10));
+		createAndAddElement('div', result);
+	} else alert(result);
+}
+
+function createAndAddElement(tagName, elementText) {
+	let resultElem = document.createElement(tagName);
+	resultElem.addEventListener('click', function () {
+		this.remove();
+	});
+	resultElem.textContent = elementText;
+
+	calcResults.prepend(resultElem);
+}
 
 function validateValues(operation, numbOne, numbTwo) {
 	let notNumber = (numbOne !== '0' && isNaN(numbOne / numbOne)) || (numbTwo !== '0' && isNaN(numbTwo / numbTwo));
