@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="style.css" />
+		<title>ToDo UI</title>
+	</head>
+	<body>
+		<div class="todo">
+			<div class="todo__high-priority high-priority">
+				<h2 class="high-priority__title title">high</h2>
+				<div class="high-priority__add-task add-task">
+					<form class="add-task__form" action="">
+						<input class="add-task__input" placeholder="Add task" type="text" />
+						<button type="submit" class="add-task__add-btn">
+							<svg><use xlink:href="sprite.svg#cancel"></use></svg>
+						</button>
+					</form>
+				</div>
+				<div class="high-priority__task task">
+					<label class="task__label">
+						<input class="task__checkbox" type="checkbox" />
+						<span class="task__style"></span>
+					</label>
+					<span class="task__text">Lorem, ipsum.</span>
+					<button class="task__cancel-btn">
+						<svg><use xlink:href="sprite.svg#cancel"></use></svg>
+					</button>
+				</div>
+			</div>
+			<div class="todo__medium-priority medium-priority">
+				<h2 class="medium-priority__title title">medium</h2>
+				<div class="medium-priority__add-task add-task">
+					<form class="add-task__form" action="">
+						<input class="add-task__input" placeholder="Add task" type="text" />
+						<button type="submit" class="add-task__add-btn">
+							<svg><use xlink:href="sprite.svg#cancel"></use></svg>
+						</button>
+					</form>
+				</div>
+				<div class="medium-priority__task task">
+					<label class="task__label">
+						<input class="task__checkbox" type="checkbox" />
+						<span class="task__style"></span>
+					</label>
+					<span class="task__text">Lorem, ipsum.</span>
+					<button class="task__cancel-btn">
+						<svg><use xlink:href="sprite.svg#cancel"></use></svg>
+					</button>
+				</div>
+				<div class="medium-priority__task task">
+					<label class="task__label">
+						<input class="task__checkbox" type="checkbox" />
+						<span class="task__style"></span>
+					</label>
+					<span class="task__text">Lorem, ipsum.</span>
+					<button class="task__cancel-btn">
+						<svg><use xlink:href="sprite.svg#cancel"></use></svg>
+					</button>
+				</div>
+			</div>
+			<div class="todo__low-priority low-priority">
+				<h2 class="low-priority__title title">low</h2>
+				<div class="low-priority__add-task add-task">
+					<form class="add-task__form" action="">
+						<input class="add-task__input" placeholder="Add task" type="text" />
+						<button type="submit" class="add-task__add-btn">
+							<svg><use xlink:href="sprite.svg#cancel"></use></svg>
+						</button>
+					</form>
+				</div>
+				<div class="low-priority__task task">
+					<label class="task__label">
+						<input class="task__checkbox" type="checkbox" />
+						<span class="task__style"></span>
+					</label>
+					<span class="task__text">Lorem, ipsum.</span>
+					<button class="task__cancel-btn">
+						<svg><use xlink:href="sprite.svg#cancel"></use></svg>
+					</button>
+				</div>
+			</div>
+		</div>
+		<script src="add-task.js"></script>
+	</body>
+</html>
