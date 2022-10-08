@@ -8,10 +8,7 @@ const list = [];
 const formElems = document.querySelectorAll('.add-task__form');
 
 for (const form of formElems) {
-	form.addEventListener('submit', e => {
-		addTask(e);
-		e.preventDefault();
-	});
+	form.addEventListener('submit', addTask);
 }
 
 let taskId = 1;
@@ -28,29 +25,35 @@ function addTask(e) {
 	clearInput(e);
 
 	render();
+
+	e.preventDefault();
 }
 
 function deleteTask(e) {
 	const currentTask = e.target.closest('.task');
-	const currentTaskId = currentTask.dataset.id;
+	const currentTaskId = Number(currentTask.getAttribute('id'));
 
 	list.splice(
-		list.findIndex(obj => obj.taskId == currentTaskId),
+		list.findIndex(obj => obj.taskId === currentTaskId),
 		1
 	);
 
 	currentTask.remove();
+
+	e.preventDefault();
 }
 
 function changeStatus(e) {
 	const currentTask = e.target.closest('.task');
-	const currentTaskId = currentTask.dataset.id;
-	const currentTaskObj = list.find(obj => obj.taskId == currentTaskId);
+	const currentTaskId = Number(currentTask.getAttribute('id'));
+	const currentTaskObj = list.find(obj => obj.taskId === currentTaskId);
 
 	if (currentTaskObj.taskStatus === STATUSES.To_Do) currentTaskObj.taskStatus = STATUSES.Done;
 	else currentTaskObj.taskStatus = STATUSES.To_Do;
 
 	render();
+
+	e.preventDefault();
 }
 
 function clearInput(e) {
@@ -59,52 +62,57 @@ function clearInput(e) {
 	currentInput.value = '';
 }
 
+function createTaskElement(i) {
+	const task = document.createElement('div');
+	const taskLabel = document.createElement('label');
+	const taskText = document.createElement('span');
+	const taskCancelBtn = document.createElement('button');
+
+	task.className = `${list[i].taskPriority}-priority__task task`;
+	task.setAttribute('id', `${list[i].taskId}`);
+
+	taskLabel.className = 'task_label';
+	if (list[i].taskStatus === STATUSES.To_Do) {
+		taskLabel.innerHTML = `
+            <input class="task__checkbox" type="checkbox"/>
+						<span class="task__style"></span>`;
+	} else {
+		taskLabel.innerHTML = `
+            <input class="task__checkbox" type="checkbox" checked/>
+						<span class="task__style"></span>`;
+	}
+	taskLabel.addEventListener('click', changeStatus);
+
+	taskText.className = 'task__text';
+	taskText.textContent = list[i].taskText;
+
+	taskCancelBtn.className = 'task__cancel-btn';
+	taskCancelBtn.innerHTML = '<svg><use xlink:href="sprite.svg#cancel"></use></svg>';
+	taskCancelBtn.addEventListener('click', deleteTask);
+
+	task.append(taskLabel, taskText, taskCancelBtn);
+
+	return task;
+}
+
 function render() {
+	const highPriorityBlok = document.querySelector('.high-priority');
+	const mediumPriorityBlok = document.querySelector('.medium-priority');
+	const lowPriorityBlok = document.querySelector('.low-priority');
+
+	removeAllTask();
+
+	list.forEach((taskObj, i) => {
+		const task = createTaskElement(i);
+
+		if (taskObj.taskPriority === 'high') highPriorityBlok.append(task);
+		else if (taskObj.taskPriority === 'medium') mediumPriorityBlok.append(task);
+		else lowPriorityBlok.append(task);
+	});
+}
+
+function removeAllTask() {
 	const allTasks = document.querySelectorAll('.task');
 
-	for (const task of allTasks) {
-		task.remove();
-	}
-
-	for (let i = 0; i < list.length; i++) {
-		const highPriorityBlok = document.querySelector('.high-priority');
-		const mediumPriorityBlok = document.querySelector('.medium-priority');
-		const lowPriorityBlok = document.querySelector('.low-priority');
-
-		let CheckBoxElement;
-
-		if (list[i].taskStatus === STATUSES.To_Do) CheckBoxElement = `<input class="task__checkbox" type="checkbox" />`;
-		else CheckBoxElement = `<input class="task__checkbox" type="checkbox" checked />`;
-
-		const currentTask = `
-	       <div class="${list[i].taskPriority}-priority__task task" data-id="${list[i].taskId}">
-					<label class="task__label">
-						${CheckBoxElement}
-						<span class="task__style"></span>
-					</label>
-					<span class="task__text">${list[i].taskText}</span>
-					<button class="task__cancel-btn">
-						<svg><use xlink:href="sprite.svg#cancel"></use></svg>
-					</button>
-				</div>
-	   `;
-
-		if (list[i].taskPriority === 'high') highPriorityBlok.insertAdjacentHTML('beforeend', currentTask);
-		else if (list[i].taskPriority === 'medium') mediumPriorityBlok.insertAdjacentHTML('beforeend', currentTask);
-		else lowPriorityBlok.insertAdjacentHTML('beforeend', currentTask);
-	}
-
-	const cancelButtons = document.querySelectorAll('.task__cancel-btn');
-
-	for (const cancelBtn of cancelButtons) {
-		cancelBtn.addEventListener('click', e => {
-			deleteTask(e);
-		});
-	}
-
-	const checkBoxs = document.querySelectorAll('.task__checkbox');
-
-	for (const checkBox of checkBoxs) {
-		checkBox.addEventListener('click', e => changeStatus(e));
-	}
+	allTasks.forEach(task => task.remove());
 }
