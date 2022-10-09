@@ -5,22 +5,23 @@ const STATUSES = {
 
 const list = [];
 
-const formElems = document.querySelectorAll('.add-task__form');
+function hangsListenersOnForms() {
+	const formElems = document.querySelectorAll('.add-task__form');
 
-for (const form of formElems) {
-	form.addEventListener('submit', addTask);
+	formElems.forEach(form => form.addEventListener('submit', addTask));
 }
 
-let taskId = 1;
+hangsListenersOnForms();
 
 function addTask(e) {
-	const taskPriority = e.target.dataset.priority;
-	const taskText = e.target.firstElementChild.value;
-	const taskStatus = STATUSES.To_Do;
+	const taskObj = {
+		taskPriority: e.target.dataset.priority,
+		taskText: e.target.firstElementChild.value,
+		taskStatus: STATUSES.To_Do,
+		taskId: list[list.length - 1] ? list[list.length - 1].taskId + 1 : 0,
+	};
 
-	taskId++;
-
-	list.push({ taskPriority, taskText, taskStatus, taskId });
+	list.push(taskObj);
 
 	clearInput(e);
 
@@ -30,30 +31,79 @@ function addTask(e) {
 }
 
 function deleteTask(e) {
-	const currentTask = e.target.closest('.task');
-	const currentTaskId = Number(currentTask.getAttribute('id'));
+	const taskInfo = getTaskData(e, true);
 
-	list.splice(
-		list.findIndex(obj => obj.taskId === currentTaskId),
-		1
-	);
+	const filtredList = list.filter(taskObj => taskObj.taskId !== taskInfo.currentTaskId);
+	list.length = 0;
+	filtredList.forEach(taskObj => list.push(taskObj));
 
-	currentTask.remove();
+	taskInfo.currentTask.remove();
 
 	e.preventDefault();
 }
 
 function changeStatus(e) {
-	const currentTask = e.target.closest('.task');
-	const currentTaskId = Number(currentTask.getAttribute('id'));
+	const currentTaskId = getTaskData(e);
 	const currentTaskObj = list.find(obj => obj.taskId === currentTaskId);
 
-	if (currentTaskObj.taskStatus === STATUSES.To_Do) currentTaskObj.taskStatus = STATUSES.Done;
-	else currentTaskObj.taskStatus = STATUSES.To_Do;
+	currentTaskObj.taskStatus = currentTaskObj.taskStatus === STATUSES.To_Do ? STATUSES.Done : STATUSES.To_Do;
 
 	render();
 
 	e.preventDefault();
+}
+
+function createTaskElement(taskObj) {
+	const taskElements = {
+		task: document.createElement('div'),
+		taskLabel: document.createElement('label'),
+		taskText: document.createElement('span'),
+		taskCancelBtn: document.createElement('button'),
+	};
+
+	taskElements.task.className = `${taskObj.taskPriority}-priority__task task`;
+	taskElements.task.setAttribute('id', `${taskObj.taskId}`);
+
+	taskElements.taskLabel.className = 'task_label';
+	if (taskObj.taskStatus === STATUSES.To_Do) {
+		taskElements.taskLabel.innerHTML = `
+            <input class="task__checkbox" type="checkbox"/>
+						<span class="task__style"></span>`;
+	} else {
+		taskElements.taskLabel.innerHTML = `
+            <input class="task__checkbox" type="checkbox" checked/>
+						<span class="task__style"></span>`;
+	}
+	taskElements.taskLabel.addEventListener('click', changeStatus);
+
+	taskElements.taskText.className = 'task__text';
+	taskElements.taskText.textContent = taskObj.taskText;
+
+	taskElements.taskCancelBtn.className = 'task__cancel-btn';
+	taskElements.taskCancelBtn.innerHTML = '<svg><use xlink:href="sprite.svg#cancel"></use></svg>';
+	taskElements.taskCancelBtn.addEventListener('click', deleteTask);
+
+	taskElements.task.append(taskElements.taskLabel, taskElements.taskText, taskElements.taskCancelBtn);
+
+	return taskElements.task;
+}
+
+function render() {
+	const priorityBloks = {
+		highPriorityBlok: document.querySelector('.high-priority'),
+		mediumPriorityBlok: document.querySelector('.medium-priority'),
+		lowPriorityBlok: document.querySelector('.low-priority'),
+	};
+
+	removeAllTask();
+
+	list.forEach(taskObj => {
+		const task = createTaskElement(taskObj);
+
+		if (taskObj.taskPriority === 'high') priorityBloks.highPriorityBlok.append(task);
+		else if (taskObj.taskPriority === 'medium') priorityBloks.mediumPriorityBlok.append(task);
+		else priorityBloks.lowPriorityBlok.append(task);
+	});
 }
 
 function clearInput(e) {
@@ -62,57 +112,15 @@ function clearInput(e) {
 	currentInput.value = '';
 }
 
-function createTaskElement(i) {
-	const task = document.createElement('div');
-	const taskLabel = document.createElement('label');
-	const taskText = document.createElement('span');
-	const taskCancelBtn = document.createElement('button');
-
-	task.className = `${list[i].taskPriority}-priority__task task`;
-	task.setAttribute('id', `${list[i].taskId}`);
-
-	taskLabel.className = 'task_label';
-	if (list[i].taskStatus === STATUSES.To_Do) {
-		taskLabel.innerHTML = `
-            <input class="task__checkbox" type="checkbox"/>
-						<span class="task__style"></span>`;
-	} else {
-		taskLabel.innerHTML = `
-            <input class="task__checkbox" type="checkbox" checked/>
-						<span class="task__style"></span>`;
-	}
-	taskLabel.addEventListener('click', changeStatus);
-
-	taskText.className = 'task__text';
-	taskText.textContent = list[i].taskText;
-
-	taskCancelBtn.className = 'task__cancel-btn';
-	taskCancelBtn.innerHTML = '<svg><use xlink:href="sprite.svg#cancel"></use></svg>';
-	taskCancelBtn.addEventListener('click', deleteTask);
-
-	task.append(taskLabel, taskText, taskCancelBtn);
-
-	return task;
-}
-
-function render() {
-	const highPriorityBlok = document.querySelector('.high-priority');
-	const mediumPriorityBlok = document.querySelector('.medium-priority');
-	const lowPriorityBlok = document.querySelector('.low-priority');
-
-	removeAllTask();
-
-	list.forEach((taskObj, i) => {
-		const task = createTaskElement(i);
-
-		if (taskObj.taskPriority === 'high') highPriorityBlok.append(task);
-		else if (taskObj.taskPriority === 'medium') mediumPriorityBlok.append(task);
-		else lowPriorityBlok.append(task);
-	});
-}
-
 function removeAllTask() {
 	const allTasks = document.querySelectorAll('.task');
 
 	allTasks.forEach(task => task.remove());
+}
+
+function getTaskData(e, needTask) {
+	const currentTask = e.target.closest('.task');
+	const currentTaskId = Number(currentTask.getAttribute('id'));
+
+	return needTask ? { currentTask: currentTask, currentTaskId: currentTaskId } : currentTaskId;
 }
