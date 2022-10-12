@@ -1,5 +1,9 @@
 import data from './data.json' assert { type: 'json' };
 
-const a = JSON.stringify(data);
+for (const userObj of data.users) {
+	console.log(userObj.firstName);
+}
 
-console.log(a);
+for (const userObj of data.users) {
+	console.log(`${userObj.firstName}, born at ${userObj.dateOfBirth} and ${userObj.knowsAs}`);
+}
