@@ -9,11 +9,7 @@ function genderize(e) {
 	const firstName = document.querySelector('.input-01').value;
 	const url = `${SERVER_URL}?name=${firstName}`;
 
-	new Promise((resolve, reject) => {
-		const response = fetch(url);
-
-		resolve(response);
-	})
+	fetch(url)
 		.then(response => (response = response.json()))
 		.then(userInfo => alert(`${userInfo.name} is ${userInfo.gender}`));
 }
