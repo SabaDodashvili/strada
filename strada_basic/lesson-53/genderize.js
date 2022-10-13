@@ -5,20 +5,15 @@ form.addEventListener('submit', genderize);
 function genderize(e) {
 	e.preventDefault();
 
+	const SERVER_URL = 'https://api.genderize.io';
 	const firstName = document.querySelector('.input-01').value;
-	const serverUrl = 'https://api.genderize.io';
-	const url = `${serverUrl}?name=${firstName}`;
+	const url = `${SERVER_URL}?name=${firstName}`;
 
-	const p1 = new Promise((resolve, reject) => {
-		const data = fetch(url);
-		resolve(data);
-	});
+	new Promise((resolve, reject) => {
+		const response = fetch(url);
 
-	p1.then(response => {
-		new Promise((resolve, reject) => {
-			const responseObj = response.json();
-
-			resolve(responseObj);
-		}).then(result => alert(`${result.name} is ${result.gender}`));
-	});
+		resolve(response);
+	})
+		.then(response => (response = response.json()))
+		.then(userInfo => alert(`${userInfo.name} is ${userInfo.gender}`));
 }
