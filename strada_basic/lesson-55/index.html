@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="style.css" />
+		<title>weather</title>
+	</head>
+	<body>
+		<div class="container">
+			<header class="header">
+				<div class="header__search search">
+					<div class="search__input-wrapper">
+						<input type="text" class="search__input" />
+					</div>
+					<button class="search__btn">
+						<svg><use xlink:href="icon_sprites.svg#search"></use></svg>
+					</button>
+				</div>
+			</header>
+			<div class="content">
+				<div class="content__column tabs">
+					<div class="tabs__body">
+						<div class="tabs__block now-block" id="tab-now">
+							<h2 class="now-block__degrees">14</h2>
+							<div class="now-block__icon">
+								<svg><use xlink:href="icon_sprites.svg#cloud"></use></svg>
+							</div>
+							<div class="now-block__footer">
+								<div class="now-block__city">rame</div>
+								<button class="now-block__like-btn">
+									<svg><use xlink:href="icon_sprites.svg#heart"></use></svg>
+								</button>
+							</div>
+						</div>
+						<div class="tabs__block details-block" id="tab-details">
+							<div class="details-block__city">rame</div>
+							<ul class="details-block__list">
+								<li class="details-block__item">Temperature: 14</li>
+								<li class="details-block__item">Feels like: 10</li>
+								<li class="details-block__item">Weather: Clouds</li>
+								<li class="details-block__item">Sunrise: 03:21</li>
+								<li class="details-block__item">Sunset: 18:54</li>
+							</ul>
+						</div>
+						<div class="tabs__block forecast-block" id="tab-forecast">
+							<div class="forecast-block__city">rame</div>
+							<div class="forecast-block__items">
+								<div class="forecast-block__item forecast-info">
+									<div class="forecast-info__header">
+										<div class="forecast-info__date">17 may</div>
+										<div class="forecast-info__time">12:00</div>
+									</div>
+									<div class="forecast-info__footer">
+										<div class="forecast-info__temperatures">
+											<div class="forecast-info__precise-temperature">Temperature: 13</div>
+											<div class="forecast-info__feels-like-temperature">Feels like: 10</div>
+										</div>
+										<div class="forecast-info__icon">
+											<svg><use xlink:href="icon_sprites.svg#cloud_rain"></use></svg>
+											<span class="forecast-info__icon-text">rain</span>
+										</div>
+									</div>
+								</div>
+								<div class="forecast-block__item forecast-info">
+									<div class="forecast-info__header">
+										<div class="forecast-info__date">17 may</div>
+										<div class="forecast-info__time">12:00</div>
+									</div>
+									<div class="forecast-info__footer">
+										<div class="forecast-info__temperatures">
+											<div class="forecast-info__precise-temperature">Temperature: 13</div>
+											<div class="forecast-info__feels-like-temperature">Feels like: 10</div>
+										</div>
+										<div class="forecast-info__icon">
+											<svg><use xlink:href="icon_sprites.svg#cloud_rain"></use></svg>
+											<span class="forecast-info__icon-text">rain</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<nav class="tabs__items">
+						<a class="tabs__item" href="#tab-now">now</a>
+						<a class="tabs__item" href="#tab-details">details</a>
+						<a class="tabs__item" href="#tab-forecast">forecast</a>
+					</nav>
+				</div>
+				<div class="content__column locations">
+					<div class="locations__header">
+						<h2 class="locations__title">Added Locations:</h2>
+					</div>
+					<ul class="locations__list locations-list">
+						<li class="locations-list__item">item 1</li>
+						<li class="locations-list__item">item 1</li>
+						<li class="locations-list__item">item 1</li>
+						<li class="locations-list__item">item 1</li>
+						<li class="locations-list__item">item 1</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
