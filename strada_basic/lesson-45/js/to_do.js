@@ -5,12 +5,19 @@ const STATUSES = {
 
 const list = [];
 
+function getDataFromStorage() {
+	const dataFromStorage = JSON.parse(localStorage.getItem('list'));
+
+	if (!dataFromStorage) return;
+	dataFromStorage.forEach(taskObj => list.push(taskObj));
+}
+getDataFromStorage();
+
 function hangsListenersOnForms() {
 	const formElems = document.querySelectorAll('.add-task__form');
 
 	formElems.forEach(form => form.addEventListener('submit', addTask));
 }
-
 hangsListenersOnForms();
 
 function addTask(e) {
@@ -22,6 +29,7 @@ function addTask(e) {
 	};
 
 	list.push(taskObj);
+	localStorage.setItem('list', JSON.stringify(list));
 
 	clearInput(e);
 
@@ -36,6 +44,7 @@ function deleteTask(e) {
 	const filtredList = list.filter(taskObj => taskObj.taskId !== taskInfo.currentTaskId);
 	list.length = 0;
 	filtredList.forEach(taskObj => list.push(taskObj));
+	localStorage.setItem('list', JSON.stringify(list));
 
 	taskInfo.currentTask.remove();
 
@@ -47,6 +56,7 @@ function changeStatus(e) {
 	const currentTaskObj = list.find(obj => obj.taskId === currentTaskId);
 
 	currentTaskObj.taskStatus = currentTaskObj.taskStatus === STATUSES.To_Do ? STATUSES.Done : STATUSES.To_Do;
+	localStorage.setItem('list', JSON.stringify(list));
 
 	render();
 
@@ -89,6 +99,8 @@ function createTaskElement(taskObj) {
 }
 
 function render() {
+	if (!list.length) return;
+
 	const priorityBloks = {
 		highPriorityBlok: document.querySelector('.high-priority'),
 		mediumPriorityBlok: document.querySelector('.medium-priority'),
@@ -105,6 +117,7 @@ function render() {
 		else priorityBloks.lowPriorityBlok.append(task);
 	});
 }
+render();
 
 function clearInput(e) {
 	const currentInput = e.target.firstElementChild;
