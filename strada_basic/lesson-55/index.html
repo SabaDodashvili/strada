@@ -10,14 +10,14 @@
 	<body>
 		<div class="container">
 			<header class="header">
-				<div class="header__search search">
+				<form class="header__search search" action="">
 					<div class="search__input-wrapper">
 						<input type="text" class="search__input" />
 					</div>
-					<button class="search__btn">
+					<button class="search__btn" type="submit">
 						<svg><use xlink:href="icon_sprites.svg#search"></use></svg>
 					</button>
-				</div>
+				</form>
 			</header>
 			<div class="content">
 				<div class="content__column tabs">
@@ -102,5 +102,6 @@
 				</div>
 			</div>
 		</div>
+		<script src="js/weather.js"></script>
 	</body>
 </html>
