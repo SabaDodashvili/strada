@@ -13,9 +13,14 @@ function calc(a, b, operation) {
 	const validationResult = inputValidation(a, b);
 
 	if (validationResult) {
-		if (operation === 'add') return Number(a) + Number(b);
-		else if (operation === 'multi') return Number(a) * Number(b);
-		else if (operation === 'substract') return Number(a) / Number(b);
+		switch (operation) {
+			case OPERATORS.add:
+				return Number(a) + Number(b);
+			case OPERATORS.multi:
+				return Number(a) * Number(b);
+			case OPERATORS.substract:
+				return Number(a) / Number(b);
+		}
 	}
 
 	return ERRORS.nonNumberValue;
@@ -30,4 +35,4 @@ function showResult(calcResult) {
 	console.log(calcResult);
 }
 
-console.log(calc(1, 2, OPERATORS.substract));
+console.log(calc(1, 2, OPERATORS.add));
