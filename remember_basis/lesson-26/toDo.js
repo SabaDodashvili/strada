@@ -15,7 +15,10 @@ const PRIORITIES = {
 	high: 'High',
 };
 
-const toDoList = [];
+const toDoList = [
+	{ name: 'create a post', status: STATUSES.done, priority: PRIORITIES.low },
+	{ name: 'test', status: STATUSES.toDo, priority: PRIORITIES.high },
+];
 
 function addTask(taskName, status = STATUSES.toDo, priority = PRIORITIES.low) {
 	const taskIndex = getTaskIndex(taskName);
@@ -25,24 +28,25 @@ function addTask(taskName, status = STATUSES.toDo, priority = PRIORITIES.low) {
 }
 
 function changePriority(taskName, priority = PRIORITIES.low) {
-	const taskIndex = getTaskIndex(taskName);
-
-	if (taskIndex === -1) showErrorText(ERRORS.taskNotExist);
-	else toDoList[taskIndex].priority = priority;
+	changeParameter(taskName, priority, 'priority');
 }
 
 function changeStatus(taskName, status = STATUSES.toDo) {
+	changeParameter(taskName, status, 'status');
+}
+
+function changeParameter(taskName, taskParameter, parameterType) {
 	const taskIndex = getTaskIndex(taskName);
 
 	if (taskIndex === -1) showErrorText(ERRORS.taskNotExist);
-	else toDoList[taskIndex].status = status;
+	else if (parameterType === 'status') toDoList[taskIndex].status = taskParameter;
+	else if (parameterType === 'priority') toDoList[taskIndex].priority = taskParameter;
 }
 
 function deleteTask(taskName) {
 	const taskIndex = getTaskIndex(taskName);
 
-	if (taskIndex === -1) showErrorText(ERRORS.taskNotExist);
-	else toDoList.splice(taskIndex, 1);
+	taskIndex === -1 ? showErrorText(ERRORS.taskNotExist) : toDoList.splice(taskIndex, 1);
 }
 
 showList = () => {
