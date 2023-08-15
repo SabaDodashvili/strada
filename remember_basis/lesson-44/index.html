@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="style.css" />
+		<title>todo</title>
+	</head>
+	<body>
+		<div class="todo">
+			<div class="todo__item high-priority">
+				<h2 class="high-priority__title title">High</h2>
+				<form class="high-priority__input-wrapper input-wrapper" data-priority="High">
+					<input class="high-priority__input input" type="text" name="" id="" placeholder="Add Task" />
+					<button class="input-wrapper__btn btn" type="submit"><span></span><span></span></button>
+				</form>
+			</div>
+			<div class="todo__item medium-priority">
+				<h2 class="medium-priority__title title">Medium</h2>
+				<form class="medium-priority__input-wrapper input-wrapper" data-priority="Medium">
+					<input class="medium-priority__input input" type="text" name="" id="" placeholder="Add Task" />
+					<button class="input-wrapper__btn btn" type="submit"><span></span><span></span></button>
+				</form>
+			</div>
+			<div class="todo__item low-priority">
+				<h2 class="low-priority__title title">Low</h2>
+				<form class="low-priority__input-wrapper input-wrapper" data-priority="Low">
+					<input class="low-priority__input input" type="text" name="" id="" placeholder="Add task" />
+					<button class="input-wrapper__btn btn" type="submit"><span></span><span></span></button>
+				</form>
+			</div>
+		</div>
+		<script type="module" src="namespace.js"></script>
+		<script type="module" src="todo.js"></script>
+	</body>
+</html>
