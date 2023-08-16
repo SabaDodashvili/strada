@@ -1,6 +1,7 @@
 export const ERRORS = {
 	taskAlredyExist: 'such a task already exists',
 	taskNotExist: 'such task does not exist',
+	emptyValue: 'value is empty',
 };
 
 export const STATUSES = {
@@ -20,6 +21,6 @@ export const ELEMENTS = {
 };
 
 export const toDoList = [
-	{ name: 'create a post', status: STATUSES.done, priority: PRIORITIES.low },
-	{ name: 'test', status: STATUSES.toDo, priority: PRIORITIES.high },
+	// { name: 'create a post', status: STATUSES.done, priority: PRIORITIES.low },
+	// { name: 'test', status: STATUSES.toDo, priority: PRIORITIES.high },
 ];

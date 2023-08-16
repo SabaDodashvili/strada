@@ -9,18 +9,16 @@ hangHandlers();
 
 function addTask(e) {
 	const currentElement = e.target;
-	const currentSection = currentElement.closest('.todo__item');
 
 	const taskName = currentElement.firstElementChild.value;
 	const taskPriority = currentElement.getAttribute('data-priority');
 	const taskIndex = getTaskIndex(taskName);
 
-	if (taskIndex !== -1) showErrorText(ERRORS.taskAlredyExist);
+	if (!taskName.trim()) showErrorText(ERRORS.emptyValue);
+	else if (taskIndex !== -1) showErrorText(ERRORS.taskAlredyExist);
 	else {
-		const currentTask = createTask(taskName, taskPriority);
-
 		toDoList.push({ name: taskName, status: STATUSES.toDo, priority: taskPriority });
-		currentSection.append(currentTask);
+		render();
 		clearInputs();
 	}
 
@@ -32,8 +30,13 @@ function changeStatus(e) {
 	const taskName = labelCheckBox.closest('label').lastElementChild.textContent;
 	const taskIndex = getTaskIndex(taskName);
 
-	if (labelCheckBox.checked) toDoList[taskIndex].status = STATUSES.done;
-	else toDoList[taskIndex].status = STATUSES.toDo;
+	if (labelCheckBox.checked) {
+		toDoList[taskIndex].status = STATUSES.done;
+		render();
+	} else {
+		toDoList[taskIndex].status = STATUSES.toDo;
+		render();
+	}
 }
 
 function deleteTask(e) {
@@ -45,14 +48,35 @@ function deleteTask(e) {
 	if (taskIndex === -1) showErrorText(ERRORS.taskNotExist);
 	else {
 		toDoList.splice(taskIndex, 1);
-		currentTask.remove();
+		render();
 	}
 }
 
-function createTask(name, priority) {
+function render() {
+	const highPrioritySection = document.querySelector('.high-priority');
+	const mediumPrioritySection = document.querySelector('.medium-priority');
+	const lowPrioritySection = document.querySelector('.low-priority');
+
+	deleteTasks();
+
+	for (const taskObj of toDoList) {
+		const task = createTask(taskObj.name, taskObj.status, taskObj.priority);
+
+		if (taskObj.priority === PRIORITIES.high) highPrioritySection.append(task);
+		else if (taskObj.priority === PRIORITIES.medium) mediumPrioritySection.append(task);
+		else lowPrioritySection.append(task);
+	}
+}
+
+function deleteTasks() {
+	const allTasks = document.querySelectorAll('.task');
+	for (const task of allTasks) task.remove();
+}
+
+function createTask(name, status, priority) {
 	const task = document.createElement('div');
-	task.classList.add('low-priority__task', 'task');
-	task.setAttribute('data-priority', priority);
+	task.setAttribute('data-priority', priority.toLowerCase());
+	task.classList.add(`${priority.toLowerCase()}-priority__task`, 'task');
 
 	const taskLabel = document.createElement('label');
 	taskLabel.classList.add('task__label', 'label');
@@ -61,6 +85,9 @@ function createTask(name, priority) {
 	labelCheckBox.classList.add('label__check-box');
 	labelCheckBox.setAttribute('type', 'checkbox');
 	labelCheckBox.addEventListener('change', changeStatus);
+
+	if (status === STATUSES.toDo) labelCheckBox.checked = false;
+	else labelCheckBox.checked = true;
 
 	const labelStyle = document.createElement('span');
 	labelStyle.classList.add('label__style');
@@ -83,11 +110,11 @@ function createTask(name, priority) {
 	return task;
 }
 
-function clearInputs(params) {
+function clearInputs() {
 	const taskInputs = document.querySelectorAll('.input');
 
 	for (const input of taskInputs) input.value = '';
 }
 const getTaskIndex = taskName => toDoList.findIndex(task => task.name === taskName);
 
-const showErrorText = error => console.log(error);
+const showErrorText = error => alert(error);
