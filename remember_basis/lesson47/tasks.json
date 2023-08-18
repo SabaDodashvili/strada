@@ -1,0 +1,14 @@
+{
+  "tasks": [
+    {
+      "name": "create a post",
+      "status": "To Do",
+      "priority": "Medium"
+    },
+    {
+      "name": "make a coffe",
+      "status": "Done",
+      "priority": "Low"
+    }
+  ]
+}
