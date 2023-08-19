@@ -1,13 +1,17 @@
 import { ERRORS, STATUSES, PRIORITIES, ELEMENTS, toDoList } from './namespace.js';
 import data from './tasks.json' assert { type: 'json' };
 
-function loadDataFromJson() {
-	for (const task of data.tasks) {
-		toDoList.push(task);
-	}
+const deleteTasks = () => {
+	const allTasks = document.querySelectorAll('.task');
+
+	for (const task of allTasks) task.remove();
+};
+
+const loadDataFromJson = () => {
+	for (const task of data.tasks) toDoList.push(task);
 
 	render();
-}
+};
 loadDataFromJson();
 
 function hangHandlers() {
@@ -78,11 +82,6 @@ function render() {
 	}
 }
 
-function deleteTasks() {
-	const allTasks = document.querySelectorAll('.task');
-	for (const task of allTasks) task.remove();
-}
-
 function createTask(name, status, priority) {
 	const task = document.createElement('div');
 	task.setAttribute('data-priority', priority.toLowerCase());
@@ -120,11 +119,10 @@ function createTask(name, status, priority) {
 	return task;
 }
 
-function clearInputs() {
-	const taskInputs = document.querySelectorAll('.input');
+const clearInputs = () => {
+	for (const input of ELEMENTS.taskInputs) input.value = '';
+};
 
-	for (const input of taskInputs) input.value = '';
-}
 const getTaskIndex = taskName => toDoList.findIndex(task => task.name === taskName);
 
 const showErrorText = error => alert(error);

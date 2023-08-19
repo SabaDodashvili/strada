@@ -17,6 +17,7 @@ export const PRIORITIES = {
 
 export const ELEMENTS = {
 	forms: document.querySelectorAll('.input-wrapper'),
+	taskInputs: document.querySelectorAll('.input'),
 	deleteButtons: document.querySelectorAll('.task__btn'),
 };
 
